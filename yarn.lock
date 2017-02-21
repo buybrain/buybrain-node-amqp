@@ -50,9 +50,9 @@ lodash@^4.17.4:
     isarray "0.0.1"
     string_decoder "~0.10.x"
 
-storymock@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/storymock/-/storymock-0.0.2.tgz#25b195b65375ffa1fbac0501c5c919d34670606f"
+storymock@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/storymock/-/storymock-0.0.3.tgz#c3c5bc5602866f033d59d014dc5a6e1cdb544564"
   dependencies:
     bluebird "^3.4.7"
     lodash "^4.17.4"

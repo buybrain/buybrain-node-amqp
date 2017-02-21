@@ -1,6 +1,6 @@
 {
     "name": "buybrain-amqplib",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "main": "./lib/amqp.js",
     "description": "Convenient wrapper around amqp.node",
     "author": "Ede Meijer <ede@buybrain.io>",
@@ -15,7 +15,7 @@
     "dependencies": {
         "amqplib": "^0.5.1",
         "bluebird": "^3.4.7",
-        "storymock": "^0.0.2"
+        "storymock": "^0.0.3"
     },
     "repository": {
         "type": "git",
