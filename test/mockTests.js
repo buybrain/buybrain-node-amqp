@@ -37,3 +37,26 @@ exports.testPubSub = function (t) {
         t.done();
     });
 };
+
+exports.testWith = function (t) {
+    const SUT = amqp.newMockConnection()
+        .expect('createChannel')
+        .expect('publish', ['', 'testing', new Buffer('test')])
+        .expect('close');
+
+    SUT.with(ch => ch.publish('', 'testing', new Buffer('test')))
+        .then( t.done);
+};
+
+exports.testConnectionConsume = function (t) {
+    const SUT = amqp.newMockConnection()
+        .expect('createChannel')
+        .expect('consume', 'testing').ok([{content: new Buffer('test')}])
+        .expect('ack')
+        .expect('close');
+
+    SUT.consume('testing', msg => {
+        t.equal('test', msg.content.toString());
+        t.done();
+    });
+};

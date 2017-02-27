@@ -35,3 +35,20 @@ exports.testPubSub = function (t) {
         t.done();
     });
 };
+
+exports.testWith = function (t) {
+    SUT.with(ch => ch.assertQueue('testing'))
+        .then(() => t.done());
+};
+
+exports.testConnectionConsume = function (t) {
+    SUT.with(ch => {
+        return ch.assertQueue('testing').then(() => ch.publish('', 'testing', new Buffer('test')));
+    })
+        .then(() => {
+            SUT.consume('testing', msg => {
+                t.equal('test', msg.content.toString());
+                t.done();
+            });
+        });
+};
