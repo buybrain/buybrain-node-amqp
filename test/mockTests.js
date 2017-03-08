@@ -48,6 +48,19 @@ exports.testWith = function (t) {
         .then( t.done);
 };
 
+exports.testWithRetry = function (t) {
+    const SUT = amqp.newMockConnection()
+        .expect('createChannel')
+        .expect('publish', ['', 'testing', new Buffer('test')]).fail(new Error('Nope'))
+        .expect('close')
+        .expect('createChannel')
+        .expect('publish', ['', 'testing', new Buffer('test')])
+        .expect('close');
+
+    SUT.with(ch => ch.publish('', 'testing', new Buffer('test')), {retry: true, minTimeout: 10})
+        .then( t.done);
+};
+
 exports.testConnectionConsume = function (t) {
     const SUT = amqp.newMockConnection()
         .expect('createChannel')
