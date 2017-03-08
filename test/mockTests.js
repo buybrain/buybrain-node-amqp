@@ -60,3 +60,32 @@ exports.testConnectionConsume = function (t) {
         t.done();
     });
 };
+
+exports.testJsonConsume = function (t) {
+    const SUT = amqp.newMockConnection()
+        .expect('createChannel')
+        .expect('consume', 'testing').ok([{content: new Buffer('{"a":123}')}])
+        .expect('ack')
+        .expect('close');
+
+    SUT.consume('testing', msg => {
+        t.deepEqual({a: 123}, msg);
+        t.done();
+    }, {json: true});
+};
+
+exports.testConsumeRetry = function (t) {
+    const SUT = amqp.newMockConnection()
+        .expect('createChannel')
+        .expect('consume', 'testing').ok([null])
+        .expect('close')
+        .expect('createChannel')
+        .expect('consume', 'testing').ok([{content: new Buffer('{"a":123}')}])
+        .expect('ack')
+        .expect('close');
+
+    SUT.consume('testing', msg => {
+        t.deepEqual({a: 123}, msg);
+        t.done();
+    }, {json: true, retry: true, minTimeout: 10});
+};
