@@ -102,3 +102,17 @@ exports.testConsumeRetry = function (t) {
         t.done();
     }, {json: true, retry: true, minTimeout: 10});
 };
+
+exports.testConsumePrefetch = function (t) {
+    const SUT = amqp.newMockConnection()
+        .expect('createChannel')
+        .expect('prefetch', 10)
+        .expect('consume', 'testing').ok([{content: new Buffer('{"a":123}')}])
+        .expect('ack')
+        .expect('close');
+
+    SUT.consume('testing', msg => {
+        t.deepEqual({a: 123}, msg);
+        t.done();
+    }, {json: true, retry: true, prefetch: 10});
+};
