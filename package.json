@@ -1,6 +1,6 @@
 {
     "name": "buybrain-amqplib",
-    "version": "0.0.7",
+    "version": "0.0.8",
     "main": "./lib/amqp.js",
     "description": "Convenient wrapper around amqp.node",
     "author": "Ede Meijer <ede@buybrain.io>",
